@@ -1,3 +1,4 @@
+import { Invitation } from "src/invitations/entities/invitation.entity";
 import { ProjectUsersRole } from "src/project_users_role/entities/project_users_role.entity";
 import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -16,4 +17,7 @@ export class Project {
 
     @OneToMany(()=>ProjectUsersRole,projectUserRole=>projectUserRole.project)
     project_user_role:ProjectUsersRole[];
+
+    @OneToMany(()=>Invitation,invitation=>invitation.project)
+    invitation:Invitation[];
 }
