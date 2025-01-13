@@ -1,6 +1,7 @@
+import { Backlog } from "src/backlog/entities/backlog.entity";
 import { Sprint } from "src/sprints/entities/sprint.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("task")
 export class Task {
@@ -42,4 +43,7 @@ export class Task {
     
     @ManyToOne(()=>Sprint,sprint=>sprint.tasks)
     sprint:Sprint;
+
+    @OneToMany(()=>Backlog,backlog=>backlog.taks)
+    backlog:Backlog[];
 }
