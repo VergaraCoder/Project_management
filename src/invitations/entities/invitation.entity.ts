@@ -1,7 +1,8 @@
 import { Project } from "src/project/entities/project.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity("invitations")
 export class Invitation {
     @PrimaryGeneratedColumn()
     id:number;

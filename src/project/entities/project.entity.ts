@@ -1,7 +1,9 @@
 import { Invitation } from "src/invitations/entities/invitation.entity";
 import { ProjectUsersRole } from "src/project_users_role/entities/project_users_role.entity";
-import { Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
+
+@Entity("project")
 export class Project {
     @PrimaryGeneratedColumn()
     id:number;

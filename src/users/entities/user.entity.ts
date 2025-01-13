@@ -1,7 +1,10 @@
 import { Invitation } from "src/invitations/entities/invitation.entity";
 import { ProjectUsersRole } from "src/project_users_role/entities/project_users_role.entity";
-import { Column, OneToMany } from "typeorm";
+import { Task } from "src/task/entities/task.entity";
+import { Column, Entity, OneToMany } from "typeorm";
 
+
+@Entity("users")
 export class User {
     @Column()
     id: number;
@@ -20,4 +23,10 @@ export class User {
 
     @OneToMany(()=>Invitation,invitation=>invitation.idUserInvited)
     invitation:Invitation[];
+
+    @OneToMany(()=>Task,task=>task.userAssigned)
+    taskAssigned:Task[];
+
+    @OneToMany(()=>Task,task=>task.userInformer)
+    taskInformer:Task[];
 }

@@ -1,8 +1,10 @@
 import { Project } from "src/project/entities/project.entity";
 import { Role } from "src/role/entities/role.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+
+@Entity("projectUserRole")
 export class ProjectUsersRole {
     @PrimaryGeneratedColumn()
     id:number;
