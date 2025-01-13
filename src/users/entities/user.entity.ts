@@ -1,12 +1,12 @@
 import { Invitation } from "src/invitations/entities/invitation.entity";
 import { ProjectUsersRole } from "src/project_users_role/entities/project_users_role.entity";
 import { Task } from "src/task/entities/task.entity";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity("users")
 export class User {
-    @Column()
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
