@@ -18,6 +18,7 @@ import { Project } from './project/entities/project.entity';
 import { ProjectUsersRole } from './project_users_role/entities/project_users_role.entity';
 import { Sprint } from './sprints/entities/sprint.entity';
 import { Invitation } from './invitations/entities/invitation.entity';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -40,6 +41,7 @@ import { Invitation } from './invitations/entities/invitation.entity';
     TaskModule,
     SprintsModule,
     BacklogModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
