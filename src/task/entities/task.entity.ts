@@ -1,3 +1,4 @@
+import { Sprint } from "src/sprints/entities/sprint.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -38,4 +39,7 @@ export class Task {
 
     @ManyToOne(()=>User,user=>user.taskInformer)
     userAssigned:User;
+    
+    @ManyToOne(()=>Sprint,sprint=>sprint.tasks)
+    sprint:Sprint;
 }
