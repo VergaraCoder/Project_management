@@ -4,6 +4,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import * as crypt from 'bcrypt';
+import { ManageError } from 'src/common/Errors/error.custom';
+
+interface DataToVerifyUser{
+  email: string;
+  password:string
+}
 
 @Injectable()
 export class UsersService {
@@ -12,23 +19,84 @@ export class UsersService {
     @InjectRepository(User) private UserRepository:Repository<User>
   ){}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    try{
+      const userCreated:User=this.UserRepository.create(createUserDto);
+      await this.UserRepository.save(userCreated);
+      return userCreated;
+    }catch(err:any){
+      throw err;
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll():Promise<User[]> {
+    try{
+      const usersFind:User[]= await this.UserRepository.find();
+      if(!usersFind){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"Users not found",
+        });
+      }
+      return usersFind;
+    }catch(err:any){
+      throw ManageError.signedError(err.message);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) :Promise<User>{
+    try{
+      const userFind:User= await this.UserRepository.findOneBy({id:id});
+      if(!userFind){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"User not found",
+        });
+      }
+      return userFind;
+    }catch(err:any){
+      throw ManageError.signedError(err.message);
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto):Promise<string> {
+    try{
+      const {affected}:number| any= await this.UserRepository.update(id,updateUserDto);
+      if(affected==0){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"User not found",
+        });
+      }
+      return "Perfectly Updated"
+    }catch(err:any){
+      throw ManageError.signedError(err.message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async verifyUserByEmailAndPassword(dataUser:DataToVerifyUser):Promise<User | boolean>{
+    const userFind:User=await this.UserRepository.findOneBy({
+        email:dataUser.email,
+    });
+
+    if(!userFind || !await crypt.compare(dataUser.password,userFind.password)){
+      return false;
+    }
+    return userFind;
+  }
+
+  async remove(id: number):Promise<string> {
+    try{
+      const {affected}:number| any= await this.UserRepository.delete(id);
+      if(affected==0){
+        throw new ManageError({
+          type:"NOT_FOUND",
+          message:"User not found",
+        });
+      }
+      return "Perfectly Deleted"
+    }catch(err:any){
+      throw ManageError.signedError(err.message);
+    }
   }
 }
