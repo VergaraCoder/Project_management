@@ -15,10 +15,10 @@ export class Invitation {
     @Column()
     idUserInvited:number;
 
-    @ManyToOne(()=>Project,project=>project.project_user_role)
+    @ManyToOne(()=>Project,project=>project.invitation)
     project:Project;
 
-    @ManyToOne(()=>User,user=>user.project_user_role)
+    @ManyToOne(()=>User,user=>user.invitation)
     user:User;
 }
 
